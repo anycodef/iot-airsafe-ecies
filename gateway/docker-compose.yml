@@ -1,0 +1,46 @@
+# AirSafe-ECIES — Gateway (Raspberry Pi 4)
+# Multi-arch: las imágenes oficiales publican manifests para amd64 y arm64,
+# por lo que este compose corre igual en una Pi (arm64) o en un x86 de desarrollo.
+#
+#   docker compose up -d
+#
+services:
+  mosquitto:
+    image: eclipse-mosquitto:2.0
+    container_name: airsafe-mosquitto
+    restart: unless-stopped
+    ports:
+      - "1883:1883"      # MQTT
+      - "9001:9001"      # MQTT sobre WebSocket
+    volumes:
+      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+      - mosquitto_data:/mosquitto/data
+      - mosquitto_log:/mosquitto/log
+    networks:
+      - airsafe
+
+  node-red:
+    image: nodered/node-red:4.0
+    container_name: airsafe-nodered
+    restart: unless-stopped
+    environment:
+      - TZ=America/Lima
+    ports:
+      - "1880:1880"      # editor / dashboard Node-RED
+    volumes:
+      - nodered_data:/data
+      - ./node-red/flows.json:/data/flows.json
+      - ./node-red/settings.js:/data/settings.js
+    depends_on:
+      - mosquitto
+    networks:
+      - airsafe
+
+networks:
+  airsafe:
+    driver: bridge
+
+volumes:
+  mosquitto_data:
+  mosquitto_log:
+  nodered_data:
