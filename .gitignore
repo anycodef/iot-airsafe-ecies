@@ -1,0 +1,52 @@
+# ---- PlatformIO / firmware ----
+.pio/
+.pioenvs/
+.piolibdeps/
+.vscode/.browse.c_cpp.db*
+.vscode/c_cpp_properties.json
+.vscode/launch.json
+.vscode/ipch
+*.elf
+*.bin
+*.hex
+*.map
+
+# ---- Claves y secretos (NUNCA commitear) ----
+*.pem
+*.der
+*.key
+keys/
+secrets/
+firmware/include/secrets.h
+.env
+.env.*
+
+# ---- Node-RED / Node.js ----
+node_modules/
+npm-debug.log*
+yarn-error.log*
+.node-red/
+gateway/node-red/data/
+gateway/node-red/.flows.json.backup
+
+# ---- Docker ----
+*.pid
+gateway/mosquitto/data/
+gateway/mosquitto/log/
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# ---- Sistema operativo ----
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# ---- Logs y temporales ----
+*.log
+tmp/
